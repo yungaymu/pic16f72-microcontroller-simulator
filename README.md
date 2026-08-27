@@ -25,10 +25,10 @@ Microchip PIC16F72 — 28-pin, 8-bit CMOS FLASH microcontroller, mid-range PIC a
 
 | Member | Role | Primary Responsibility | Supporting Responsibility |
 |---|---|---|---|
-| [Name] | Team Leader | CPU & Instruction Execution | Integration & GitHub |
-| [Name] | Member | Memory & Stack | CPU support |
-| [Name] | Member | Data Structures & Process Management | Testing |
-| [Name] | Member | OS Scheduling & Context Switching | UI & Integration |
+| Mohammed Ayman | Team Leader | CPU & Instruction Execution | Integration & GitHub |
+| Mohammed Shayaan | Member | Memory & Stack | CPU support |
+| Sancia | Member | Data Structures & Process Management | Testing |
+| Prakrithi | Member | OS Scheduling & Context Switching | UI & Integration |
 
 ## Selected Programming Language
 **Java**
@@ -59,6 +59,6 @@ MICROCONTROLLER SIMULATOR
 ## Initial Development Plan
 - Week 1: Team formation, repo setup, PIC16F72 architecture study, language finalization,
   initial design.
-- Week 2: [planned] CPU core / instruction execution.
-- Week 3+: [planned] Memory & stack, GPIO/Timer0, interrupts, scheduler, UI — fill in as the
+- Week 2: CPU core / instruction execution.
+- Week 3+: Memory & stack, GPIO/Timer0, interrupts, scheduler, UI — fill in as the
   team plans further.
