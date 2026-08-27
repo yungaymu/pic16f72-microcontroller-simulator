@@ -1,0 +1,46 @@
+# --- Build output ---
+target/
+build/
+out/
+bin/
+*.class
+*.jar
+*.war
+
+# --- Maven ---
+.mvn/
+mvnw
+mvnw.cmd
+
+# --- Gradle ---
+.gradle/
+gradle-wrapper.jar
+gradlew
+gradlew.bat
+
+# --- IDE files ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.project
+.classpath
+.settings/
+*.launch
+
+# --- OS-specific files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Temp / cache files ---
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+.cache/
+
+# --- Env / secrets ---
+.env
