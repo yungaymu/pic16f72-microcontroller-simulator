@@ -41,18 +41,17 @@ Microchip PIC16F72 — 28-pin, 8-bit CMOS FLASH microcontroller, mid-range PIC a
   this is a functional, not timing-accurate, simulator
 
 ## Initial System Architecture
-```
-MICROCONTROLLER SIMULATOR
-        |
-  --------------------
-  |        |         |
- CPU    MEMORY   PERIPHERALS
-           |          |
-    PROCESS MANAGER  GPIO/TIMER, INTERRUPTS
-           |
-       SCHEDULER
-           |
-     USER INTERFACE
+```mermaid
+flowchart TD
+    A[MICROCONTROLLER SIMULATOR]
+    A --> B[CPU]
+    A --> C[MEMORY]
+    A --> D[PERIPHERALS]
+    D --> E[GPIO / TIMER]
+    D --> F[INTERRUPTS]
+    C --> G[PROCESS MANAGER]
+    G --> H[SCHEDULER]
+    H --> I[USER INTERFACE]
 ```
 (Initial design — will be refined in later weeks.)
 
