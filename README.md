@@ -53,11 +53,7 @@ flowchart TD
     G --> H[SCHEDULER]
     H --> I[USER INTERFACE]
 ```
-(Initial design — will be refined in later weeks.)
 
 ## Initial Development Plan
 - Week 1: Team formation, repo setup, PIC16F72 architecture study, language finalization,
   initial design.
-- Week 2: CPU core / instruction execution.
-- Week 3+: Memory & stack, GPIO/Timer0, interrupts, scheduler, UI — fill in as the
-  team plans further.
