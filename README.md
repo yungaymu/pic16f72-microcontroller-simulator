@@ -47,7 +47,7 @@ flowchart TD
     A --> B[CPU]
     A --> C[MEMORY]
     A --> D[PERIPHERALS]
-    D --> E[GPIO / TIMER]
+    D --> E[GPIO TIMER]
     D --> F[INTERRUPTS]
     C --> G[PROCESS MANAGER]
     G --> H[SCHEDULER]
