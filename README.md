@@ -41,7 +41,9 @@ Microchip PIC16F72 — 28-pin, 8-bit CMOS FLASH microcontroller, mid-range PIC a
   this is a functional, not timing-accurate, simulator
 
 ## Initial System Architecture
-<img width="726" height="519" alt="architecture-diagram" src="https://github.com/user-attachments/assets/7d165930-82d9-4b29-97f1-f257c33585f0" />
+<img width="726" height="519" alt="image" src="https://github.com/user-attachments/assets/bf172f7b-6502-49f8-99ff-f987e521c311" />
+
+(Initial design — will be refined in later weeks.)
 
 ## Initial Development Plan
 - Week 1: Team formation, repo setup, PIC16F72 architecture study, language finalization,

@@ -1,0 +1,27 @@
+Meeting Minutes
+
+Date: 28 August 2026
+Meeting Number: 1
+Participants: Mohammed Ayman, Mohammed Shayaan, Sancia, Prakrithi
+
+Agenda
+1. Check progress on repo and PIC16F72 study
+2. Finalize architecture diagram
+
+Discussion
+- Repo, folders, and collaborators are all set up.
+- Each member shared what they found on their assigned part (registers/stack, memory,
+  GPIO/Timer0/interrupts).
+- Agreed the block diagram is good for now, converted it to render properly in README.
+
+Decisions
+1. Keep current architecture diagram, refine in Week 2.
+2. Everyone commits their notes before merging week-01.
+
+Action Items
+- Ayman: merge week-01 PR
+- Shayaan: commit register/stack notes
+- Sancia: commit memory notes
+- Prakrithi: commit GPIO/Timer0 notes, write status report
+
+**Next Meeting:** Start of Week 2

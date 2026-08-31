@@ -1,0 +1,29 @@
+Week 1 Status Report
+
+Planned Work
+- Set up team, repo, and study assigned microcontroller
+
+Completed Work
+- Repository created, all 4 members added as collaborators
+- Folder structure and .gitignore added
+- Java selected as programming language
+- PIC16F72 architecture studied (registers, memory, GPIO, Timer0, interrupts)
+- Initial system architecture diagram added to README
+
+Pending Work
+- Detailed CPU design
+- Instruction implementation
+
+Issues Encountered
+- None major, minor delay syncing week-01 branch with main
+
+Decisions Made
+- Java chosen over C++ for OOP support and team familiarity
+- Architecture diagram finalized for now, to be refined in Week 2
+
+Individual Contributions
+- Ayman: repo setup, CPU/instruction study
+- Shayaan: memory & stack study
+- Sancia: data structures & process management study
+- Prakrithi: GPIO/Timer0/interrupts study, UI planning
+
