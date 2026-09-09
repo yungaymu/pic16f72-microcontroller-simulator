@@ -1,0 +1,32 @@
+Week 2 Status Report
+
+Planned Work
+- Build a working CPU core with registers, PC, and program memory
+- Implement 8 instructions covering all required functional areas
+- Implement FETCH -> DECODE -> EXECUTE
+- Build a basic Java UI with Load / Reset / Step / Run
+
+Completed Work
+- CPU class with W register, memory array, PC, Z/C flags
+- 8 instructions implemented: MOVLW, MOVWF, ADDLW, SUBLW, ANDLW, INCF, GOTO, HALT
+- fetch(), decode(), execute(), updateStatus() methods
+- Swing UI showing PC, W, flags, memory, and execution trace
+- Load / Reset / Step / Run controls working
+- Demonstration program exercising all 8 instructions
+- Test cases for every instruction (see docs/instructions.md)
+
+Decisions Made
+- Kept class-based instruction representation from Week 1
+- Z flag simplified to update after every instruction with a result, not just
+  logical/arithmetic ones — documented in docs/instructions.md
+
+Individual Contributions
+- Mohammed Ayman:
+- Mohammed Shayaan:
+- Prakrithi:
+- Sancia:
+
+Work Accepted
+- CPU core and 8 instructions
+- FETCH -> DECODE -> EXECUTE implementation
+- Basic UI
