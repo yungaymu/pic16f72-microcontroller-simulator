@@ -4,15 +4,7 @@ import java.util.List;
 import javax.swing.*;
 import javax.swing.border.*;
 
-/**
- * Same look as the original SimulatorUI, but the CPU itself now lives in
- * the C process (cpu_core). This class only sends commands and renders
- * whatever comes back over the pipe.
- *
- * Requirement: once Run is clicked, the program editor is locked (not
- * editable) until the run finishes or Reset is pressed, so the code
- * can't be changed out from under a run in progress.
- */
+
 public class SimulatorUINative extends JFrame {
 
     private final NativeCpuClient client = new NativeCpuClient();
@@ -25,8 +17,6 @@ public class SimulatorUINative extends JFrame {
     private JButton loadBtn, resetBtn, stepBtn, runBtn;
     private Timer runTimer;
 
-    /* Local shadow of CPU state, rebuilt from parsing the trace text the
-       C core sends back - the C side owns the real state. */
     private int shadowW = 0;
     private int shadowPC = 0;
     private boolean shadowZ = false;
