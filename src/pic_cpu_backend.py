@@ -141,6 +141,28 @@ def event_worker():
         send_to_logger(msg)
         events.task_done()
 
+def client(conn):
+    f=conn.makefile('r',encoding='utf-8',newline='\n')
+    try:
+        while not stop.is_set():
+            line=f.readline()
+            if not line: break
+            line=line.rstrip('\r\n')
+            if line=='LOAD':
+                ls=[]
+                while True:
+                    x=f.readline()
+                    if not x: return
+                    x=x.rstrip('\r\n')
+                    if x=='END': break
+                    ls.append(x)
+                commands.put(('LOAD','\n'.join(ls),conn))
+            elif line in ('STEP','RESET','QUIT'):
+                commands.put((line,None,conn))
+                if line=='QUIT': break
+    finally:
+        f.close(); conn.close()
+
 
 
 
