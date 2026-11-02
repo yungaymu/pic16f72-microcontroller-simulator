@@ -40,6 +40,18 @@ def parse_program(text):
         out.append((op,operand))
         if len(out)>MAX_PROGRAM: raise ValueError('Program too long')
     return out
+    
+def execute(op,a):
+    if op=='MOVLW': cpu.W=a&255; cpu.lastResult=cpu.W
+    elif op=='MOVWF': cpu.memory[a]=cpu.W; cpu.lastResult=cpu.W
+    elif op=='ADDLW':
+        r=cpu.W+a; cpu.flagC=r>255; cpu.W=r&255; cpu.lastResult=cpu.W
+    elif op=='SUBLW':
+        r=a-cpu.W; cpu.flagC=r>=0; cpu.W=r&255; cpu.lastResult=cpu.W
+    elif op=='ANDLW': cpu.W=cpu.W&a; cpu.lastResult=cpu.W
+    elif op=='INCF': cpu.memory[a]=(cpu.memory[a]+1)&255; cpu.lastResult=cpu.memory[a]
+    elif op=='GOTO': cpu.PC=a
+    elif op=='HALT': cpu.halted=True
 
 
 
