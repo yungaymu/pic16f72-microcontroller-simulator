@@ -52,6 +52,20 @@ def execute(op,a):
     elif op=='INCF': cpu.memory[a]=(cpu.memory[a]+1)&255; cpu.lastResult=cpu.memory[a]
     elif op=='GOTO': cpu.PC=a
     elif op=='HALT': cpu.halted=True
-
+        
+def step():
+    with cpu.sem:
+        if cpu.halted: return ['Program already halted.'],None
+        if not 0<=cpu.PC<len(cpu.program): cpu.halted=True; return ['No more instructions. Program halted.'],'HALTED'
+        pc=cpu.PC; op,a=cpu.program[pc]; cpu.PC+=1; wb=cpu.W
+        track=op in ('MOVWF','INCF'); mb=cpu.memory[a] if track else -1
+        execute(op,a); cpu.flagZ=(cpu.lastResult==0)
+        lines=['Instruction : HALT' if op=='HALT' else f'Instruction : {op} {a}',f'PC : {pc:04d}','Execution Trace','----------------------------','FETCH   [OK]',('DECODE  [OK] -> HALT' if op=='HALT' else f'DECODE  [OK] -> {op} (operand={a})'),'EXECUTE [OK]','Result','----------------------------']
+        if wb!=cpu.W: lines.append(f'W : {wb} -> {cpu.W}')
+        if track and mb!=cpu.memory[a]: lines.append(f'Memory[{a}] : {mb} -> {cpu.memory[a]}')
+        lines += [f'PC : {pc} -> {cpu.PC}',f"Z Flag : {'true' if cpu.flagZ else 'false'}   C Flag : {'true' if cpu.flagC else 'false'}"]
+        if cpu.halted: lines.append('>>> PROGRAM TERMINATED <<<'); ev='HALTED'
+        else: ev=f'EXECUTED {op} PC={cpu.PC}'
+        return lines,ev
 
 
