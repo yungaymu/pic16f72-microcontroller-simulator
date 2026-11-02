@@ -14,6 +14,13 @@ public class SimulatorUINative extends JFrame {
     private JLabel pcLabel, wLabel, zLabel, cLabel, statusLabel;
     private JButton loadBtn, resetBtn, stepBtn, runBtn;
     private Timer runTimer;
+
+    private int shadowW = 0;
+    private int shadowPC = 0;
+    private boolean shadowZ = false;
+    private boolean shadowC = false;
+    private boolean shadowHalted = false;
+    private final int[] shadowMemory = new int[128];
     
 
 }
