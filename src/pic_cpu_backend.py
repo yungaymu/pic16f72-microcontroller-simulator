@@ -15,3 +15,12 @@ try: shm=shared_memory.SharedMemory(name=SHM_NAME,create=True,size=SHM_SIZE)
 except FileExistsError: shm=shared_memory.SharedMemory(name=SHM_NAME,create=False,size=SHM_SIZE)
 
 
+def send_to_logger(message):
+    try:
+        with socket.create_connection((HOST, 45773), timeout=1) as conn:
+            conn.sendall(message.encode("utf-8"))
+    except OSError:
+        print("[LOGGING ERROR] Could not contact logging process", flush=True)
+
+
+
