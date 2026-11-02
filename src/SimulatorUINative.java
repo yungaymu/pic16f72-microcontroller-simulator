@@ -66,4 +66,136 @@ public class SimulatorUINative extends JFrame {
             "HALT"
         );
     }
+    private void connectInBackground() {
+        statusLabel.setText("Status : Connecting to Python CPU backend...");
+        new Thread(() -> {
+            try {
+                client.connect(); // blocks until cpu_core has opened its ends
+                connected = true;
+                SwingUtilities.invokeLater(() -> {
+                    statusLabel.setText("Status : Connected");
+                    setButtonsEnabled(true);
+                });
+            } catch (IOException ex) {
+                SwingUtilities.invokeLater(() ->
+                    statusLabel.setText("Status : Failed to connect - start the Python backend first"));
+            }
+        }).start();
+    }
+
+    private void setButtonsEnabled(boolean enabled) {
+        loadBtn.setEnabled(enabled);
+        resetBtn.setEnabled(enabled);
+        stepBtn.setEnabled(enabled);
+        runBtn.setEnabled(enabled);
+    }
+
+    private JComponent buildHeader() {
+        JLabel title = new JLabel("  PIC16F72 Microcontroller Simulator  - by Group Thanthonni");
+        title.setForeground(ACCENT);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        title.setBorder(new EmptyBorder(12, 10, 12, 10));
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(PANEL_DARK);
+        panel.add(title, BorderLayout.WEST);
+        return panel;
+    }
+
+    private JComponent buildLeftPanel() {
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
+        panel.setBackground(PANEL_DARK);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setPreferredSize(new Dimension(360, 0));
+
+        JLabel label = new JLabel("Program");
+        label.setForeground(TEXT_LIGHT);
+        label.setFont(MONO_BOLD);
+
+        programEditor = new JTextArea();
+        programEditor.setFont(MONO);
+        programEditor.setBackground(FIELD_DARK);
+        programEditor.setForeground(TEXT_LIGHT);
+        programEditor.setCaretColor(Color.WHITE);
+        programEditor.setBorder(new EmptyBorder(8, 8, 8, 8));
+
+        JScrollPane scroll = new JScrollPane(programEditor);
+        scroll.setBorder(new LineBorder(BORDER_COL));
+
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 8, 8));
+        buttonPanel.setBackground(PANEL_DARK);
+
+        loadBtn  = styledButton("Load",  ACCENT);
+        resetBtn = styledButton("Reset", new Color(198, 120, 221));
+        stepBtn  = styledButton("Step",  GREEN);
+        runBtn   = styledButton("Run",   new Color(229, 192, 123));
+
+        loadBtn.addActionListener(e -> onLoad());
+        resetBtn.addActionListener(e -> onReset());
+        stepBtn.addActionListener(e -> onStep());
+        runBtn.addActionListener(e -> onRun());
+
+        buttonPanel.add(loadBtn);
+        buttonPanel.add(resetBtn);
+        buttonPanel.add(stepBtn);
+        buttonPanel.add(runBtn);
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(scroll, BorderLayout.CENTER);
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+        return panel;
+    }
+
+    private JButton styledButton(String text, Color color) {
+        JButton btn = new JButton(text);
+        btn.setFont(MONO_BOLD);
+        btn.setBackground(color);
+        btn.setForeground(Color.BLACK);
+        btn.setFocusPainted(false);
+        btn.setBorder(new EmptyBorder(8, 8, 8, 8));
+        return btn;
+    }
+
+    private JComponent buildCenterPanel() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBackground(PANEL_DARK);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JPanel statePanel = new JPanel(new GridLayout(2, 3, 12, 12));
+        statePanel.setBackground(PANEL_DARK);
+        statePanel.setBorder(new TitledBorder(new LineBorder(BORDER_COL), "CPU State (reported by Python CPU backend)"));
+
+        pcLabel     = stateValueLabel("PC : 0000");
+        wLabel      = stateValueLabel("W : 0");
+        zLabel      = stateValueLabel("Z Flag : false");
+        cLabel      = stateValueLabel("C Flag : false");
+        statusLabel = stateValueLabel("Status : Starting...");
+
+        statePanel.add(pcLabel);
+        statePanel.add(wLabel);
+        statePanel.add(zLabel);
+        statePanel.add(cLabel);
+        statePanel.add(statusLabel);
+
+        JLabel memLabel = new JLabel("Memory (address 16-31)");
+        memLabel.setForeground(TEXT_LIGHT);
+        memLabel.setFont(MONO_BOLD);
+        memLabel.setBorder(new EmptyBorder(10, 0, 4, 0));
+
+        memoryArea = new JTextArea(4, 40);
+        memoryArea.setFont(MONO);
+        memoryArea.setEditable(false);
+        memoryArea.setBackground(FIELD_DARK);
+        memoryArea.setForeground(TEXT_LIGHT);
+        memoryArea.setBorder(new EmptyBorder(8, 8, 8, 8));
+
+        panel.add(statePanel);
+        panel.add(memLabel);
+        panel.add(new JScrollPane(memoryArea));
+
+        refreshStateDisplay();
+        return panel;
+    }
+
 }
