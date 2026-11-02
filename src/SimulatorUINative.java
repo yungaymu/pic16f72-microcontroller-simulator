@@ -198,4 +198,38 @@ public class SimulatorUINative extends JFrame {
         return panel;
     }
 
+    rivate JLabel stateValueLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(MONO_BOLD);
+        label.setForeground(GREEN);
+        label.setBorder(new EmptyBorder(6, 6, 6, 6));
+        return label;
+    }
+
+    private JComponent buildBottomPanel() {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(PANEL_DARK);
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setPreferredSize(new Dimension(0, 220));
+
+        JLabel label = new JLabel("Execution Trace (from Python backend over IPC)");
+        label.setForeground(TEXT_LIGHT);
+        label.setFont(MONO_BOLD);
+
+        traceArea = new JTextArea();
+        traceArea.setFont(MONO);
+        traceArea.setEditable(false);
+        traceArea.setBackground(FIELD_DARK);
+        traceArea.setForeground(GREEN);
+        traceArea.setBorder(new EmptyBorder(8, 8, 8, 8));
+
+        JScrollPane scroll = new JScrollPane(traceArea);
+        scroll.setBorder(new LineBorder(BORDER_COL));
+
+        panel.add(label, BorderLayout.NORTH);
+        panel.add(scroll, BorderLayout.CENTER);
+        return panel;
+    }
+
+    
 }
