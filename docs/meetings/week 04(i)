@@ -1,0 +1,127 @@
+Project Name: PIC16F72 Microcontroller Simulator
+Meeting Title: Introduction to Week 04 – Multi-Process Simulator & IPC
+Date: 27 September 2026
+Time: 10:00 AM – 10:45 AM
+Platform: Google Meet
+Meeting Type: Project Planning and Technical Discussion
+
+1. Meeting Participants
+
+Mohammed Ayman – Team Leader and Integration
+
+Shayaan – UI/UX Process
+
+Prakrithi – Core Process
+
+Sancia – Logging Process
+
+2. Meeting Agenda
+
+Introduce the objectives of Week 04.
+
+Discuss the transition from a single-process simulator to a multi-process architecture.
+
+Understand POSIX Inter-Process Communication (IPC).
+
+Allocate individual responsibilities among team members.
+
+Discuss implementation tasks and expected deliverables.
+
+3. Discussion
+
+The meeting began with an introduction to Week 04, focusing on enhancing the existing PIC16F72 Microcontroller Simulator by dividing it into three independent processes.
+
+The team discussed moving from a traditional single-program approach towards system-level software design, where different components operate independently and communicate through IPC mechanisms.
+
+The proposed architecture consists of three processes:
+
+UI Process – Shayaan: Responsible for user interaction, code input and simulator display.
+
+Core Process – Prakrithi: Responsible for CPU execution, memory management, stack and queue operations.
+
+Logging Process – Sancia: Responsible for recording execution details, errors and relevant system activities.
+
+Mohammed Ayman, as Team Leader, would be responsible for integrating all three processes, resolving IPC and interface issues, performing system testing and conducting benchmarking.
+
+The team also discussed using threads wherever appropriate within individual processes and investigating suitable POSIX IPC mechanisms to enable communication.
+
+Performance evaluation was another important topic. The team agreed to compare the existing standalone simulator with the new multi-process implementation by measuring execution time, IPC overhead, CPU usage and memory consumption.
+
+4. Team Responsibilities
+
+Team Member
+
+Assigned Responsibility
+
+Mohammed Ayman
+
+Integration, IPC coordination, system testing and benchmarking
+
+Shayaan
+
+UI/UX Process Development
+
+Prakrithi
+
+Core Process Development
+
+Sancia
+
+Logging Process Development
+
+It was mutually agreed that each member must independently develop and take ownership of their assigned component. The Team Leader would coordinate integration rather than independently developing all three modules.
+
+5. Decisions Made
+
+After discussion, the team collectively agreed to:
+
+Divide the simulator into three independent processes: UI, Core and Logging.
+
+Investigate and select an appropriate POSIX IPC mechanism.
+
+Define communication interfaces between the processes.
+
+Implement multithreading wherever required.
+
+Maintain existing simulator functionality while introducing process separation.
+
+Conduct IPC test cases to verify reliable communication.
+
+Compare standalone and multi-process implementations through benchmarking.
+
+Update the GitHub repository with the new architecture, implementation and documentation.
+
+6. Expected Deliverables
+
+Working three-process simulator.
+
+IPC architecture diagram.
+
+Selected IPC mechanism with justification.
+
+Functional inter-process communication.
+
+Individual component implementations.
+
+Integrated simulator.
+
+IPC test cases and results.
+
+Standalone versus multi-process benchmark results.
+
+Performance analysis.
+
+Updated GitHub documentation.
+
+7. Conclusion
+
+The meeting concluded with a clear understanding of the Week 04 objectives and the responsibilities of each team member.
+
+The team agreed to focus on transforming the existing simulator into a properly structured multi-process system. Special emphasis would be placed on process separation, POSIX IPC, integration and performance evaluation.
+
+The ultimate goal is to demonstrate a fully functional simulator with communication between the UI, Core and Logging processes while understanding the architectural and performance trade-offs involved.
+
+Meeting Status: Completed
+
+Prepared By: Project Team
+Document Type: Week 04 Introduction and Planning Meeting Minutes

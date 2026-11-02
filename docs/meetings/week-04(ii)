@@ -1,0 +1,97 @@
+MEETING MINUTES
+
+Project Name: PIC16F72 Microcontroller Simulator
+Meeting Title: Discussion on Change of Programming Language
+Date: 25 September 2026
+Time: 10:00 AM – 10:45 AM
+Platform: Google Meet
+Meeting Type: Technical Discussion
+
+1. Meeting Participants
+
+Mohammed Ayman – Team Leader
+
+Shayaan – UI/UX Development
+
+Prakrithi – Core Development
+
+Sancia – Logging Development
+
+2. Meeting Agenda
+
+Review the existing Java-only implementation.
+
+Discuss limitations in implementing POSIX IPC using Java alone.
+
+Explore integrating Python into the existing project.
+
+Decide on the programming languages and implementation approach.
+
+3. Discussion
+
+The team reviewed the existing PIC16F72 Microcontroller Simulator, which was initially developed using Java.
+
+During the discussion, the team identified difficulties in demonstrating POSIX-based inter-process communication (IPC) using Java alone.
+
+The team proposed introducing Python alongside Java to simplify the implementation of POSIX IPC mechanisms and process communication.
+
+The following points were discussed:
+
+Java would continue handling the main simulator logic and graphical user interface.
+
+Python would be introduced to handle POSIX-related IPC operations.
+
+Communication between Java and Python would be established to exchange instructions and execution results.
+
+Existing simulator functionality and user interface should remain unchanged.
+
+The updated implementation should maintain the same core outputs while demonstrating operating system concepts.
+
+4. Decisions Made
+
+After discussion, the team collectively agreed to:
+
+Change the implementation from Java-only to a combination of Java and Python.
+
+Retain Java for the simulator's core functionality and user interface.
+
+Use Python to implement POSIX IPC mechanisms.
+
+Integrate both languages to demonstrate inter-process communication.
+
+Preserve existing functionality and expected simulator outputs.
+
+Test the updated implementation to ensure reliable communication between processes.
+
+5. Action Items
+
+Team Member
+
+Responsibility
+
+Mohammed Ayman
+
+Technical coordination and integration
+
+Shayaan
+
+UI/UX implementation
+
+Prakrithi
+
+Core simulator implementation
+
+Sancia
+
+Logging implementation
+
+6. Conclusion
+
+The meeting concluded with a mutual agreement to adopt a hybrid Java and Python implementation for the PIC16F72 Microcontroller Simulator.
+
+This change would allow the project to retain its existing functionality while incorporating practical POSIX IPC concepts and demonstrating inter-process communication.
+
+Meeting Status: Completed
+
+Prepared By: Project Team
+Document Type: Technical Meeting Minutes

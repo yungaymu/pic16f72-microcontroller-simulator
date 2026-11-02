@@ -1,0 +1,152 @@
+LOAD -> ['OK 10 instructions']
+
+=== STEP 1 ===
+Instruction : MOVLW 5
+PC : 0000
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> MOVLW (operand=5)
+EXECUTE [OK]
+Result
+----------------------------
+W : 0 -> 5
+PC : 0 -> 1
+Z Flag : false   C Flag : false
+
+=== STEP 2 ===
+Instruction : MOVWF 20
+PC : 0001
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> MOVWF (operand=20)
+EXECUTE [OK]
+Result
+----------------------------
+Memory[20] : 0 -> 5
+PC : 1 -> 2
+Z Flag : false   C Flag : false
+
+=== STEP 3 ===
+Instruction : ADDLW 10
+PC : 0002
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> ADDLW (operand=10)
+EXECUTE [OK]
+Result
+----------------------------
+W : 5 -> 15
+PC : 2 -> 3
+Z Flag : false   C Flag : false
+
+=== STEP 4 ===
+Instruction : MOVWF 21
+PC : 0003
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> MOVWF (operand=21)
+EXECUTE [OK]
+Result
+----------------------------
+Memory[21] : 0 -> 15
+PC : 3 -> 4
+Z Flag : false   C Flag : false
+
+=== STEP 5 ===
+Instruction : ANDLW 6
+PC : 0004
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> ANDLW (operand=6)
+EXECUTE [OK]
+Result
+----------------------------
+W : 15 -> 6
+PC : 4 -> 5
+Z Flag : false   C Flag : false
+
+=== STEP 6 ===
+Instruction : INCF 20
+PC : 0005
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> INCF (operand=20)
+EXECUTE [OK]
+Result
+----------------------------
+Memory[20] : 5 -> 6
+PC : 5 -> 6
+Z Flag : false   C Flag : false
+
+=== STEP 7 ===
+Instruction : GOTO 8
+PC : 0006
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> GOTO (operand=8)
+EXECUTE [OK]
+Result
+----------------------------
+PC : 6 -> 8
+Z Flag : false   C Flag : false
+
+=== STEP 8 ===
+Instruction : SUBLW 50
+PC : 0008
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> SUBLW (operand=50)
+EXECUTE [OK]
+Result
+----------------------------
+W : 6 -> 44
+PC : 8 -> 9
+Z Flag : false   C Flag : true
+
+=== STEP 9 ===
+Instruction : HALT
+PC : 0009
+Execution Trace
+----------------------------
+FETCH   [OK]
+DECODE  [OK] -> HALT
+EXECUTE [OK]
+Result
+----------------------------
+PC : 9 -> 10
+Z Flag : false   C Flag : true
+>>> PROGRAM TERMINATED <<<
+
+=== SHARED MEMORY (seen by an outside process) ===
+W=44 PC=10 Z=0 C=1 halted=1
+memory[16..31] = [0, 0, 0, 0, 6, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+=== EVENTS RECEIVED BY LOGGER ===
+COMMAND LOAD
+LOADED 10 instructions
+COMMAND STEP
+EXECUTED MOVLW PC=1
+COMMAND STEP
+EXECUTED MOVWF PC=2
+COMMAND STEP
+EXECUTED ADDLW PC=3
+COMMAND STEP
+EXECUTED MOVWF PC=4
+COMMAND STEP
+EXECUTED ANDLW PC=5
+COMMAND STEP
+EXECUTED INCF PC=6
+COMMAND STEP
+EXECUTED GOTO PC=8
+COMMAND STEP
+EXECUTED SUBLW PC=9
+COMMAND STEP
+HALTED
