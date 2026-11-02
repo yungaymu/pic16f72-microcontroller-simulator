@@ -129,7 +129,17 @@ def executor():
             conn.sendall(b'---END---\n'); publish()
         except (BrokenPipeError,ConnectionResetError): pass
         commands.task_done()
+        
+def event_worker():
+    while not stop.is_set():
+        try:
+            msg = events.get(timeout=.2)
+        except queue.Empty:
+            continue
 
+        print("[EVENT]", msg, flush=True)
+        send_to_logger(msg)
+        events.task_done()
 
 
 
