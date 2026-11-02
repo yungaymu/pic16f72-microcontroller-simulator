@@ -27,4 +27,8 @@ while True:
 with conn:
             data = b""
 
-
+ while True:
+                chunk = conn.recv(4096)
+                if not chunk:
+                    break
+                data += chunk
