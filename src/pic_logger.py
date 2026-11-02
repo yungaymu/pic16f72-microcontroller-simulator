@@ -32,3 +32,5 @@ with conn:
                 if not chunk:
                     break
                 data += chunk
+
+message = data.decode("utf-8", errors="replace").strip()
