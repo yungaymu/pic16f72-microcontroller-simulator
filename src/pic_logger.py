@@ -19,3 +19,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     server.bind((HOST, PORT))
     server.listen(10)
 
+print(f"Logging process listening on {HOST}:{PORT}", flush=True)
+
