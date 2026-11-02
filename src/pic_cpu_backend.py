@@ -120,6 +120,19 @@ def handle(cmd, payload):
 
     return ['ERROR Unknown command: ' + cmd]
 
+def executor():
+    while not stop.is_set():
+        try: cmd,payload,conn=commands.get(timeout=.2)
+        except queue.Empty: continue
+        try:
+            for line in handle(cmd,payload): conn.sendall((line+'\n').encode())
+            conn.sendall(b'---END---\n'); publish()
+        except (BrokenPipeError,ConnectionResetError): pass
+        commands.task_done()
+
+
+
+
 
 
 
