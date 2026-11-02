@@ -24,3 +24,7 @@ print(f"Logging process listening on {HOST}:{PORT}", flush=True)
 while True:
         conn, _ = server.accept()
 
+with conn:
+            data = b""
+
+
