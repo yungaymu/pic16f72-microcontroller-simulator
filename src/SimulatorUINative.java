@@ -231,5 +231,70 @@ public class SimulatorUINative extends JFrame {
         return panel;
     }
 
-    
+    /* ---------- Button handlers ---------- */
+
+    private void onLoad() {
+        if (!connected) return;
+        try {
+            List<String> response = client.load(programEditor.getText());
+            resetShadowState();
+            traceArea.setText(String.join("\n", response) + "\n");
+            refreshStateDisplay();
+        } catch (IOException ex) {
+            traceArea.setText("IO error talking to Python backend: " + ex.getMessage() + "\n");
+        }
+    }
+
+    private void onReset() {
+        if (!connected) return;
+        if (runTimer != null) {
+            runTimer.stop();
+        }
+        setEditorLocked(false); // unlock editing again
+        try {
+            List<String> response = client.reset();
+            resetShadowState();
+            traceArea.append(String.join("\n", response) + "\n");
+            refreshStateDisplay();
+        } catch (IOException ex) {
+            traceArea.append("IO error talking to Python backend: " + ex.getMessage() + "\n");
+        }
+    }
+
+    private void onStep() {
+        if (!connected) return;
+        try {
+            List<String> response = client.step();
+            applyTraceToShadowState(response);
+            traceArea.append(String.join("\n", response) + "\n");
+            traceArea.setCaretPosition(traceArea.getDocument().getLength());
+            refreshStateDisplay();
+        } catch (IOException ex) {
+            traceArea.append("IO error talking to Python backend: " + ex.getMessage() + "\n");
+        }
+    }
+
+    private void onRun() {
+        if (!connected) return;
+        if (runTimer != null && runTimer.isRunning()) return;
+
+        setEditorLocked(true); // can't edit the program while it's running
+
+        runTimer = new Timer(500, e -> {
+            if (shadowHalted) {
+                runTimer.stop();
+                setEditorLocked(false); // unlock once the run finishes
+                return;
+            }
+            onStep();
+        });
+        runTimer.start();
+    }
+
+    private void setEditorLocked(boolean locked) {
+        programEditor.setEditable(!locked);
+        loadBtn.setEnabled(!locked);
+        programEditor.setBackground(locked ? new Color(18, 19, 23) : FIELD_DARK);
+    }
+
 }
