@@ -22,5 +22,9 @@ def send_to_logger(message):
     except OSError:
         print("[LOGGING ERROR] Could not contact logging process", flush=True)
 
+def publish():
+    with cpu.sem: v=[cpu.W,cpu.PC,int(cpu.flagZ),int(cpu.flagC),int(cpu.halted)]+cpu.memory[16:32]
+    shm.buf[:SHM_SIZE]=struct.pack(FMT,*v)
+
 
 
