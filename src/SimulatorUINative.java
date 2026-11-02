@@ -51,4 +51,19 @@ public class SimulatorUINative extends JFrame {
 
         connectInBackground();
     }
+
+    private String defaultDemoProgram() {
+        return String.join("\n",
+            "MOVLW 5      ; W = 5",
+            "MOVWF 20     ; memory[20] = W",
+            "ADDLW 10     ; W = W + 10",
+            "MOVWF 21     ; memory[21] = W",
+            "ANDLW 6      ; W = W AND 6",
+            "INCF 20      ; memory[20] = memory[20] + 1",
+            "GOTO 8       ; jump over the next line",
+            "MOVLW 99     ; skipped - proves GOTO works",
+            "SUBLW 50     ; W = 50 - W",
+            "HALT"
+        );
+    }
 }
