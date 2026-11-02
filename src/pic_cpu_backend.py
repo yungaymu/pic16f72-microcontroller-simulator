@@ -30,5 +30,16 @@ def event(msg):
     try: events.put_nowait(msg)
     except queue.Full: pass
 
+def parse_program(text):
+    out=[]
+    for raw in text.splitlines():
+        line=raw.split(';',1)[0].strip()
+        if not line: continue
+        p=line.split(); op=p[0].upper(); operand=int(p[1]) if len(p)>1 else 0
+        if op not in {'MOVLW','MOVWF','ADDLW','SUBLW','ANDLW','INCF','GOTO','HALT'}: raise ValueError('Unknown instruction: '+op)
+        out.append((op,operand))
+        if len(out)>MAX_PROGRAM: raise ValueError('Program too long')
+    return out
+
 
 
