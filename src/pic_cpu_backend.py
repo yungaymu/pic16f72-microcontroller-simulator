@@ -26,5 +26,9 @@ def publish():
     with cpu.sem: v=[cpu.W,cpu.PC,int(cpu.flagZ),int(cpu.flagC),int(cpu.halted)]+cpu.memory[16:32]
     shm.buf[:SHM_SIZE]=struct.pack(FMT,*v)
 
+def event(msg):
+    try: events.put_nowait(msg)
+    except queue.Full: pass
+
 
 
