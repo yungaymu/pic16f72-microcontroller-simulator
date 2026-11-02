@@ -40,3 +40,6 @@ if message:
 
  if message == "SHUTDOWN":
                 break
+
+print("Logging process stopped.", flush=True)
+
