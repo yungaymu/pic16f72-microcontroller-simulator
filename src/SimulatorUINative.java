@@ -297,4 +297,65 @@ public class SimulatorUINative extends JFrame {
         programEditor.setBackground(locked ? new Color(18, 19, 23) : FIELD_DARK);
     }
 
+    /* ---------- Shadow state (parsed from cpu_core's trace text) ---------- */
+
+    private void resetShadowState() {
+        shadowW = 0;
+        shadowPC = 0;
+        shadowZ = false;
+        shadowC = false;
+        shadowHalted = false;
+        java.util.Arrays.fill(shadowMemory, 0);
+    }
+
+    private void applyTraceToShadowState(List<String> lines) {
+        for (String line : lines) {
+            if (line.startsWith("W : ") && line.contains(" -> ")) {
+                shadowW = parseLastInt(line);
+            } else if (line.startsWith("Memory[") && line.contains(" -> ")) {
+                int addr = Integer.parseInt(line.substring(7, line.indexOf(']')));
+                int value = parseLastInt(line);
+                if (addr >= 0 && addr < shadowMemory.length) {
+                    shadowMemory[addr] = value;
+                }
+            } else if (line.startsWith("PC : ") && line.contains(" -> ")) {
+                shadowPC = parseLastInt(line);
+            } else if (line.startsWith("Z Flag : ")) {
+                shadowZ = line.contains("Z Flag : true");
+                shadowC = line.contains("C Flag : true");
+            } else if (line.contains("PROGRAM TERMINATED") || line.contains("already halted")) {
+                shadowHalted = true;
+            }
+        }
+    }
+
+    private int parseLastInt(String line) {
+        String[] parts = line.split("->");
+        String last = parts[parts.length - 1].trim();
+        return Integer.parseInt(last.replaceAll("[^0-9-]", ""));
+    }
+
+    private void refreshStateDisplay() {
+        pcLabel.setText("PC : " + String.format("%04d", shadowPC));
+        wLabel.setText("W : " + shadowW);
+        zLabel.setText("Z Flag : " + shadowZ);
+        cLabel.setText("C Flag : " + shadowC);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 16; i < 32; i++) {
+            sb.append(String.format("[%02d]=%-3d ", i, shadowMemory[i]));
+            if ((i - 15) % 8 == 0) {
+                sb.append("\n");
+            }
+        }
+        memoryArea.setText(sb.toString());
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            SimulatorUINative ui = new SimulatorUINative();
+            ui.setVisible(true);
+        });
+    }
+
 }
