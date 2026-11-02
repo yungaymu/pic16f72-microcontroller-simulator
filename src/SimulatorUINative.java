@@ -33,4 +33,22 @@ public class SimulatorUINative extends JFrame {
     private static final Font MONO      = new Font("Consolas", Font.PLAIN, 14);
     private static final Font MONO_BOLD = new Font("Consolas", Font.BOLD, 14);
 
+    public SimulatorUINative() {
+        super("PIC16F72 Microcontroller Simulator (Python core + Java UI)");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1100, 720);
+        setLocationRelativeTo(null);
+        getContentPane().setBackground(BG_DARK);
+        setLayout(new BorderLayout(10, 10));
+
+        add(buildHeader(), BorderLayout.NORTH);
+        add(buildLeftPanel(), BorderLayout.WEST);
+        add(buildCenterPanel(), BorderLayout.CENTER);
+        add(buildBottomPanel(), BorderLayout.SOUTH);
+
+        programEditor.setText(defaultDemoProgram());
+        setButtonsEnabled(false); // locked until connected to cpu_core.exe
+
+        connectInBackground();
+    }
 }
