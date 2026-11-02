@@ -68,7 +68,6 @@ def step():
         else: ev=f'EXECUTED {op} PC={cpu.PC}'
         return lines,ev
 
-
 """ def handle(cmd,payload):
     event(f"COMMAND {cmd}")
     if cmd=='LOAD':
@@ -85,6 +84,43 @@ def step():
         event('RESET'); return ['OK']
     if cmd=='QUIT': stop.set(); return ['OK']
     return ['ERROR Unknown command: '+cmd] """
+
+def handle(cmd, payload):
+    event(f"COMMAND {cmd}")
+
+    if cmd == 'LOAD':
+        try:
+            program = parse_program(payload or '')
+        except Exception as e:
+            event(f"ERROR LOAD: {e}")
+            return [f"ERROR {e}"]
+
+        with cpu.sem:
+            cpu.program = program
+            cpu.reset()
+
+        event(f"LOADED {len(cpu.program)} instructions")
+        return [f"OK {len(cpu.program)} instructions"]
+
+    if cmd == 'STEP':
+        lines, ev = step()
+        if ev:
+            event(ev)
+        return lines
+
+    if cmd == 'RESET':
+        with cpu.sem:
+            cpu.reset()
+        event('RESET')
+        return ['OK']
+
+    if cmd == 'QUIT':
+        stop.set()
+        return ['OK']
+
+    return ['ERROR Unknown command: ' + cmd]
+
+
 
 
 
