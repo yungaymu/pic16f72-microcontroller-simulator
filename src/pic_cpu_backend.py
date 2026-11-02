@@ -164,6 +164,24 @@ def client(conn):
         f.close(); conn.close()
 
 
+def main():
+    publish(); threading.Thread(target=executor,daemon=True).start(); threading.Thread(target=event_worker,daemon=True).start()
+    with socket.socket() as s:
+        s.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1); s.bind((HOST,PORT)); s.listen(4); s.settimeout(.5)
+        print(f'PIC16F72 Python backend listening on {HOST}:{PORT}',flush=True)
+        try:
+            while not stop.is_set():
+                try: c,_=s.accept()
+                except socket.timeout: continue
+                threading.Thread(target=client,args=(c,),daemon=True).start()
+        finally:
+            send_to_logger("SHUTDOWN"); stop.set(); shm.close()
+            try: shm.unlink()
+            except FileNotFoundError: pass
+if __name__=='__main__': main()
+
+
+
 
 
 
