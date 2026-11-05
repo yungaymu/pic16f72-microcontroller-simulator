@@ -76,7 +76,22 @@ def execute(op,a):
     elif op=='SUBLW':
         r=a-cpu.W; cpu.flagC=r>=0; cpu.W=r&255; cpu.lastResult=cpu.W
     elif op=='ANDLW': cpu.W=cpu.W&a; cpu.lastResult=cpu.W
+    elif op=='XORLW': cpu.W=cpu.W^a; cpu.lastResult=cpu.W
+    elif op=='XORWF': cpu.memory[a]=(cpu.memory[a]^cpu.W)&255; cpu.lastResult=cpu.memory[a]
     elif op=='INCF': cpu.memory[a]=(cpu.memory[a]+1)&255; cpu.lastResult=cpu.memory[a]
+    elif op=='CLRC': cpu.flagC=False; cpu.lastResult=0
+    elif op=='RLF':
+        old_c=1 if cpu.flagC else 0; value=cpu.memory[a]
+        cpu.flagC=bool(value&0x80); cpu.memory[a]=((value<<1)|old_c)&255; cpu.lastResult=cpu.memory[a]
+    elif op=='DECFSZ':
+        cpu.memory[a]=(cpu.memory[a]-1)&255; cpu.lastResult=cpu.memory[a]
+        if cpu.memory[a]==0: cpu.PC+=1
+    elif op=='BTFSC':
+        if not cpu.flagC: cpu.PC+=1
+        cpu.lastResult=int(cpu.flagC)
+    elif op=='BTFSS':
+        if cpu.flagC: cpu.PC+=1
+        cpu.lastResult=int(cpu.flagC)
     elif op=='GOTO': cpu.PC=a
     elif op=='HALT': cpu.halted=True
         
