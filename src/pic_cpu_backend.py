@@ -132,6 +132,7 @@ def handle(cmd, payload):
     if cmd=='QUIT': stop.set(); return ['OK']
     return ['ERROR Unknown command: '+cmd]
 
+
 def executor():
     while not stop.is_set():
         try: cmd,payload,conn=commands.get(timeout=.2)
@@ -141,7 +142,7 @@ def executor():
             conn.sendall(b'---END---\n'); publish()
         except (BrokenPipeError,ConnectionResetError): pass
         commands.task_done()
-        
+
 def event_worker():
     while not stop.is_set():
         try:
