@@ -14,7 +14,6 @@ cpu=CPU(); commands=queue.Queue(maxsize=16); events=queue.Queue(maxsize=16); sto
 try: shm=shared_memory.SharedMemory(name=SHM_NAME,create=True,size=SHM_SIZE)
 except FileExistsError: shm=shared_memory.SharedMemory(name=SHM_NAME,create=False,size=SHM_SIZE)
 
-
 def send_to_logger(message):
     try:
         with socket.create_connection((HOST, 45773), timeout=1) as conn:
@@ -29,6 +28,9 @@ def publish():
 def event(msg):
     try: events.put_nowait(msg)
     except queue.Full: pass
+
+def number(value):
+    return int(value, 0)
 
 def parse_program(text):
     out=[]
