@@ -170,7 +170,6 @@ def client(conn):
     finally:
         f.close(); conn.close()
 
-
 def main():
     publish(); threading.Thread(target=executor,daemon=True).start(); threading.Thread(target=event_worker,daemon=True).start()
     with socket.socket() as s:
