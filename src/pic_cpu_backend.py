@@ -33,16 +33,41 @@ def number(value):
     return int(value, 0)
 
 def parse_program(text):
-    out=[]
+    source=[]; labels={}
     for raw in text.splitlines():
         line=raw.split(';',1)[0].strip()
         if not line: continue
-        p=line.split(); op=p[0].upper(); operand=int(p[1]) if len(p)>1 else 0
-        if op not in {'MOVLW','MOVWF','ADDLW','SUBLW','ANDLW','INCF','GOTO','HALT'}: raise ValueError('Unknown instruction: '+op)
+        if ':' in line:
+            label, rest=line.split(':',1); label=label.strip()
+            if not label or not label.replace('_','').isalnum(): raise ValueError('Invalid label: '+label)
+            if label in labels: raise ValueError('Duplicate label: '+label)
+            labels[label]=len(source); line=rest.strip()
+            if not line: continue
+        parts=line.replace(',', ' ').split()
+        source.append(parts)
+        if len(source)>MAX_PROGRAM: raise ValueError('Program too long')
+    out=[]
+    allowed={'MOVLW','MOVWF','ADDLW','SUBLW','ANDLW','XORLW','XORWF','INCF','RLF','DECFSZ','BTFSC','BTFSS','CLRC','GOTO','HALT'}
+    for parts in source:
+        op=parts[0].upper(); args=parts[1:]
+        if op not in allowed: raise ValueError('Unknown instruction: '+op)
+        if op in {'CLRC','HALT'}:
+            if args: raise ValueError(op+' takes no operand')
+            operand=None
+        elif op in {'BTFSC','BTFSS'}:
+            if len(args)!=1 or args[0].upper()!='C': raise ValueError(op+' currently supports the C carry flag')
+            operand='C'
+        elif op=='GOTO':
+            if len(args)!=1: raise ValueError('GOTO requires one label or address')
+            operand=labels[args[0]] if args[0] in labels else number(args[0])
+        else:
+            if len(args)!=1: raise ValueError(op+' requires one operand')
+            operand=number(args[0])
+            if op in {'MOVWF','XORWF','INCF','RLF','DECFSZ'} and not 0<=operand<MEM_SIZE: raise ValueError('Memory address out of range: '+str(operand))
+            if op in {'MOVLW','ADDLW','SUBLW','ANDLW','XORLW'} and not 0<=operand<=255: raise ValueError('Literal must be between 0 and 255')
         out.append((op,operand))
-        if len(out)>MAX_PROGRAM: raise ValueError('Program too long')
     return out
-    
+
 def execute(op,a):
     if op=='MOVLW': cpu.W=a&255; cpu.lastResult=cpu.W
     elif op=='MOVWF': cpu.memory[a]=cpu.W; cpu.lastResult=cpu.W
