@@ -132,7 +132,6 @@ def handle(cmd, payload):
     if cmd=='QUIT': stop.set(); return ['OK']
     return ['ERROR Unknown command: '+cmd]
 
-
 def executor():
     while not stop.is_set():
         try: cmd,payload,conn=commands.get(timeout=.2)
@@ -145,14 +144,9 @@ def executor():
 
 def event_worker():
     while not stop.is_set():
-        try:
-            msg = events.get(timeout=.2)
-        except queue.Empty:
-            continue
-
-        print("[EVENT]", msg, flush=True)
-        send_to_logger(msg)
-        events.task_done()
+        try: msg=events.get(timeout=.2)
+        except queue.Empty: continue
+        print('[EVENT]',msg,flush=True); send_to_logger(msg); events.task_done()
 
 def client(conn):
     f=conn.makefile('r',encoding='utf-8',newline='\n')
