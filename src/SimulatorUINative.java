@@ -5,9 +5,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 public class SimulatorUINative extends JFrame {
+
     private final NativeCpuClient client = new NativeCpuClient();
     private boolean connected = false;
-    
+
     private JTextArea programEditor;
     private JTextArea traceArea;
     private JTextArea memoryArea;
@@ -15,6 +16,8 @@ public class SimulatorUINative extends JFrame {
     private JButton loadBtn, resetBtn, stepBtn, runBtn;
     private Timer runTimer;
 
+    /* Local shadow of CPU state, rebuilt from parsing the trace text the
+       C core sends back - the C side owns the real state. */
     private int shadowW = 0;
     private int shadowPC = 0;
     private boolean shadowZ = false;
@@ -66,6 +69,7 @@ public class SimulatorUINative extends JFrame {
             "HALT"
         );
     }
+
     private void connectInBackground() {
         statusLabel.setText("Status : Connecting to Python CPU backend...");
         new Thread(() -> {
@@ -198,7 +202,7 @@ public class SimulatorUINative extends JFrame {
         return panel;
     }
 
-    rivate JLabel stateValueLabel(String text) {
+    private JLabel stateValueLabel(String text) {
         JLabel label = new JLabel(text);
         label.setFont(MONO_BOLD);
         label.setForeground(GREEN);
@@ -357,5 +361,4 @@ public class SimulatorUINative extends JFrame {
             ui.setVisible(true);
         });
     }
-
 }
