@@ -100,32 +100,18 @@ def step():
         if cpu.halted: return ['Program already halted.'],None
         if not 0<=cpu.PC<len(cpu.program): cpu.halted=True; return ['No more instructions. Program halted.'],'HALTED'
         pc=cpu.PC; op,a=cpu.program[pc]; cpu.PC+=1; wb=cpu.W
-        track=op in ('MOVWF','INCF'); mb=cpu.memory[a] if track else -1
-        execute(op,a); cpu.flagZ=(cpu.lastResult==0)
-        lines=['Instruction : HALT' if op=='HALT' else f'Instruction : {op} {a}',f'PC : {pc:04d}','Execution Trace','----------------------------','FETCH   [OK]',('DECODE  [OK] -> HALT' if op=='HALT' else f'DECODE  [OK] -> {op} (operand={a})'),'EXECUTE [OK]','Result','----------------------------']
+        track=op in ('MOVWF','INCF','XORWF','RLF','DECFSZ'); mb=cpu.memory[a] if track else -1
+        old_c=cpu.flagC; execute(op,a); cpu.flagZ=(cpu.lastResult==0)
+        operand='' if a is None else str(a)
+        lines=['Instruction : HALT' if op=='HALT' else f'Instruction : {op} {operand}',f'PC : {pc:04d}','Execution Trace','----------------------------','FETCH   [OK]',('DECODE  [OK] -> HALT' if op=='HALT' else f'DECODE  [OK] -> {op} (operand={operand})'),'EXECUTE [OK]','Result','----------------------------']
         if wb!=cpu.W: lines.append(f'W : {wb} -> {cpu.W}')
         if track and mb!=cpu.memory[a]: lines.append(f'Memory[{a}] : {mb} -> {cpu.memory[a]}')
+        if old_c!=cpu.flagC: lines.append(f'C Flag : {old_c} -> {cpu.flagC}')
         lines += [f'PC : {pc} -> {cpu.PC}',f"Z Flag : {'true' if cpu.flagZ else 'false'}   C Flag : {'true' if cpu.flagC else 'false'}"]
         if cpu.halted: lines.append('>>> PROGRAM TERMINATED <<<'); ev='HALTED'
         else: ev=f'EXECUTED {op} PC={cpu.PC}'
         return lines,ev
 
-""" def handle(cmd,payload):
-    event(f"COMMAND {cmd}")
-    if cmd=='LOAD':
-        try: cpu.program=parse_program(payload or '')
-        except Exception as e: event(f"ERROR LOAD: {e}") return [f"ERROR {e}"]
-        with cpu.sem: cpu.reset()
-        event(f'LOADED {len(cpu.program)} instructions'); return [f'OK {len(cpu.program)} instructions']
-    if cmd=='STEP':
-        lines,ev=step()
-        if ev: event(ev)
-        return lines
-    if cmd=='RESET':
-        with cpu.sem: cpu.reset()
-        event('RESET'); return ['OK']
-    if cmd=='QUIT': stop.set(); return ['OK']
-    return ['ERROR Unknown command: '+cmd] """
 
 def handle(cmd, payload):
     event(f"COMMAND {cmd}")
